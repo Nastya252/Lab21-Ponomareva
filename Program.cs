@@ -1,30 +1,85 @@
-﻿// using System.Collections.Generic;
-// List<string> tasks = new List<string> { "Код", "Тест", "Код" };
-// Console.WriteLine(tasks.Count);
-// tasks.Add("Отчёт");
-// tasks.Insert(1, "План");
+﻿Console.Write("Сколько задач добавить сначала: ");
+int count = Convert.ToInt32(Console.ReadLine());
+List<string> tasks = new List<string>();
+for (int i = 0; i < count; i++)
+{
+    Console.Write($"Задача {i + 1}: ");
+    string title = Console.ReadLine() ?? "";
+    tasks.Add(title);
+}
 
-// bool InsertTaskSafe(List<string> tasks, int index, string title)
-// {
-//     if (index < 0 || index > tasks.Count)
-//     {
-//         return false;
-//     }
+PrintTasks(tasks);
 
-//     tasks.Insert(index, title);
-//     return true;
-// }
+Console.Write("Задайте название новой задачи: ");
+string newTask = Console.ReadLine() ?? "";
+tasks.Add(newTask);
+Console.WriteLine("Задача добавлена");
+
+Console.Write("Задайте название новой задачи: ");
+string insertTask = Console.ReadLine() ?? "";
+Console.Write("Задайте индекс вставки: ");
+int index = int.Parse(Console.ReadLine() ?? "");
+if (InsertTaskSafe(tasks, index, insertTask))
+{
+    Console.WriteLine("Задача вставлена");
+}
+else 
+{
+    Console.WriteLine("Недопустимый индекс вставки");
+}
+
+Console.Write("Задайте название задачи для удаления: ");
+string removeTask = Console.ReadLine() ?? "";
+if (tasks.Remove(removeTask))
+{
+    Console.WriteLine("Первое совпадение удалено");
+}
+else
+{
+    Console.WriteLine("Задача не найдена");
+}
+
+Console.Write("Задайте индекс задачи для удаления: ");
+int removeIndex = int.Parse(Console.ReadLine() ?? "");
+if (RemoveTaskAtSafe(tasks, removeIndex))
+{
+    Console.WriteLine("Задача по индексу удалена");
+}
+else
+{
+    Console.WriteLine("Недопустимый индекс удаления");
+}
+
+Console.Write("Задайте название задачи для поиска: ");
+string findTask = Console.ReadLine() ?? "";
+int findIndex = tasks.IndexOf(findTask);
+if (findIndex >= 0)
+{
+    Console.WriteLine($"Первый индекс: {findIndex}");
+}
+else
+{
+    Console.WriteLine("Задача не найдена");
+}
+Console.WriteLine();
+Console.WriteLine(">>> Итоговый список дел <<<");
+Console.WriteLine();
+Console.WriteLine($"Количество задач: {tasks.Count}");
+PrintTasks(tasks);
 
 
-// List<string> emptyTasks = new List<string>();
-// emptyTasks.Add("Код");
-// Console.WriteLine(emptyTasks.Count);
-// Console.WriteLine(emptyTasks[0]);   
 
-// foreach (string title in tasks)
-// {
-//     Console.WriteLine(title);
-// }
+bool InsertTaskSafe(List<string> tasks, int index, string title)
+{
+    if (index < 0 || index > tasks.Count)
+    {
+        return false;
+    }
+
+    tasks.Insert(index, title);
+    return true;
+}
+
 
 void PrintTasks(List<string> tasks)
 {
@@ -40,42 +95,13 @@ void PrintTasks(List<string> tasks)
     }
 }
 
-// PrintTasks(tasks);
-
-List<string> removedTasks = new List<string> { "Код", "Тест", "Код" };
-bool removed = removedTasks.Remove("Код");
-Console.WriteLine(removed);
-PrintTasks(removedTasks);
-Console.WriteLine(removedTasks.Remove("Экзамен"));
-Console.WriteLine(removedTasks.Count);
-
-removedTasks.RemoveAt(1);
-PrintTasks(removedTasks);
-
-bool RemoveTaskAtSafe(List<string> tasks, int index) {
-    if (index < 0 || index >= tasks.Count) {
+bool RemoveTaskAtSafe(List<string> tasks, int index)
+{
+    if (index < 0 || index >= tasks.Count)
+    {
         return false;
     }
+
     tasks.RemoveAt(index);
     return true;
-}
-
-List<int> scores = new List<int> { 10, 20, 30 };
-scores.Remove(scores[1]);
-Console.WriteLine(scores.Count);
-
-List<string> searchableTasks = new List<string> { "Код", "Тест", "Код" };
-Console.WriteLine(searchableTasks.Contains("Код"));
-Console.WriteLine(searchableTasks.Contains("План"));
-Console.WriteLine(searchableTasks.IndexOf("Код"));
-Console.WriteLine(searchableTasks.IndexOf("План"));
-
-int index = searchableTasks.IndexOf("Код");
-if (index >= 0)
-{
-    Console.WriteLine($"Первый индекс: {index}");
-}
-else
-{
-    Console.WriteLine("Задача не найдена");
 }
